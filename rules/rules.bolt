@@ -29,18 +29,28 @@ imServer() { myUidIs('SERVER') }
 /**
  * Returns true if matches the user role
  */
-myRoleIs(role) {  prior(root.users.protected.role) == role }
+myRoleIs(role) {  prior(root.users[auth.uid].role) == role }
+
+
+//
+// Types
+// ----------------------------------------------------------------------------
+
+
+type Email extends String {
+  validate() { this.test(/.+\@.+\..+/) }
+}
 
 type DisplayName extends String {
-  validate() { 
-    this.length < 32 
-  }
+  validate() { this.length < 32 }
 }
 
 type Rating extends Number {
-  validate() { 
-    this >= 1 && this <= 5
-  }
+  validate() { this >= 1 && this <= 5 }
+}
+
+type Role extends String {
+  validate() { this === null || this === 'admin' }
 }
 
 type UserPublic {
@@ -49,40 +59,28 @@ type UserPublic {
   rating: Rating,
 }
 
-type Role extends String {
-  validate() { this === null || this === 'admin' }
-}
-
-type UserProtected {
-  email: String,
+type User {
+  public: UserPublic,
+  email: Email | Null,
   phoneNumber: String | Null,
   role: Role
 }
 
-type User {
-  public: UserPublic,
-  protected: UserProtected
-}
+
+//
+// Types
+// ----------------------------------------------------------------------------
 
 
-path / {
-  read() { imServer() }
-}
+path / { read() { imServer() } }
 
-
-path /users {
-  read() { myRoleIs('admin') }
-}
-
+path /users { read() { myRoleIs('admin') } }
 
 path /users/{userId} is User {
   read() { myUidIs(userId) || myRoleIs('admin') || imServer() }
-  write() { imServer() }
+  write() { imServer() || myRoleIs('admin') }
 }
 
 path /users/{userId}/public is User {
   read() { imLoggedIn() }
-}
-
-
-
+} 
