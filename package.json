@@ -4,12 +4,13 @@
   "description": "Example Firebase Realtime Database rules workflow",
   "main": "index.js",
   "scripts": {
-    "build:rules": "firebase-bolt rules/firebase.rules.bolt",
+    "build:rules": "firebase-bolt rules/rules.bolt",
     "pretest:rules": "npm run build:rules",
-    "test:rules":
-      "targaryen --verbose rules/firebase.rules.json rules/firebase.test.json",
+    "test:rules": "targaryen --verbose rules/rules.json rules/tests.json",
     "test": "jest",
-    "test:watch": "npm test -- --watch"
+    "tw": "npm run test -- --watch",
+    "test:watch":
+      "nodemon --watch rules/rules.bolt --watch rules/tests.json --exec \"npm run test:rules\""
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,10 @@
     "bolt": "^0.3.3",
     "firebase-bolt": "^0.8.2",
     "jest": "^21.1.0",
+    "nodemon": "^1.12.1",
     "targaryen": "^3.0.2"
+  },
+  "jest": {
+    "snapshotSerializers": ["targaryen/plugins/jasmine"]
   }
 }
