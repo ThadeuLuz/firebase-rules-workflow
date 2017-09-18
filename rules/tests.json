@@ -1,0 +1,59 @@
+{
+  "root": {
+    "users": {
+      "ADMIN": {
+        "public": {
+          "photoURL": "http://www.example.com/yoda.png",
+          "displayName": "Yoda",
+          "rating": 5
+        },
+        "email": "yoda@dagobah.com",
+        "phoneNumber": "12345",
+        "role": "admin"
+      },
+      "AUTHENTICATED": {
+        "public": {
+          "photoURL": "http://www.example.com/luke.png",
+          "displayName": "Luke",
+          "rating": 5
+        },
+        "protected": {
+          "email": "luke@jedi.com",
+          "phoneNumber": "12345"
+        }
+      }
+    }
+  },
+  "users": {
+    "Server": { "uid": "SERVER" },
+    "Admin": { "uid": "ADMIN" },
+    "Authenticated": { "uid": "AUTHENTICATED" },
+    "Authenticated2": { "uid": "AUTHENTICATED2" },
+    "Unauthenticated": {}
+  },
+  "tests": {
+    "": {
+      "canRead": ["Server"],
+      "cannotRead": ["Admin", "Authenticated", "Unauthenticated"]
+    },
+    "users": {
+      "canRead": ["Server", "Admin"],
+      "cannotRead": ["Authenticated", "Unauthenticated"]
+    },
+    "users/AUTHENTICATED": {
+      "canRead": ["Server", "Admin", "Authenticated"],
+      "cannotRead": ["Unauthenticated"],
+      "canWrite": [{ "auth": "Authenticated", "data": "a" }]
+    },
+    "users/AUTHENTICATED/public": {
+      "canRead": ["Server", "Admin", "Authenticated", "Authenticated2"]
+    },
+    "users/ADMIN": {
+      "canRead": ["Admin"],
+      "cannotRead": ["Authenticated", "Unauthenticated"]
+    },
+    "users/ADMIN/public": {
+      "canRead": ["Unauthenticated"]
+    }
+  }
+}
