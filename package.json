@@ -4,6 +4,10 @@
   "description": "Example Firebase Realtime Database rules workflow",
   "main": "index.js",
   "scripts": {
+    "build:rules": "firebase-bolt rules/firebase.rules.bolt",
+    "pretest:rules": "npm run build:rules",
+    "test:rules":
+      "targaryen --verbose rules/firebase.rules.json rules/firebase.test.json",
     "test": "jest",
     "test:watch": "npm test -- --watch"
   },
@@ -20,6 +24,7 @@
   "homepage": "https://github.com/ThadeuLuz/firebase-rules-workflow#readme",
   "devDependencies": {
     "bolt": "^0.3.3",
+    "firebase-bolt": "^0.8.2",
     "jest": "^21.1.0",
     "targaryen": "^3.0.2"
   }
