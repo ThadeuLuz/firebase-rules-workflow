@@ -1,0 +1,88 @@
+//
+// Helper Functions
+// ----------------------------------------------------------------------------
+
+/**
+ * This is useful to control complex validation logic
+ */
+_(operation) { operation }
+
+/**
+ * User is logged in
+ */
+imLoggedIn() { 
+  auth !== null 
+}
+
+/**
+ * User has this uid
+ */
+myUidIs(uid) { 
+  imLoggedIn() && auth.uid == uid
+}
+
+/**
+ * User is our server
+ */
+imServer() { myUidIs('SERVER') }
+
+/**
+ * Returns true if matches the user role
+ */
+myRoleIs(role) {  prior(root.users.protected.role) == role }
+
+type DisplayName extends String {
+  validate() { 
+    this.length < 32 
+  }
+}
+
+type Rating extends Number {
+  validate() { 
+    this >= 1 && this <= 5
+  }
+}
+
+type UserPublic {
+  photoURL: String | Null,
+  displayName: DisplayName,
+  rating: Rating,
+}
+
+type Role extends String {
+  validate() { this === null || this === 'admin' }
+}
+
+type UserProtected {
+  email: String,
+  phoneNumber: String | Null,
+  role: Role
+}
+
+type User {
+  public: UserPublic,
+  protected: UserProtected
+}
+
+
+path / {
+  read() { imServer() }
+}
+
+
+path /users {
+  read() { myRoleIs('admin') }
+}
+
+
+path /users/{userId} is User {
+  read() { myUidIs(userId) || myRoleIs('admin') || imServer() }
+  write() { imServer() }
+}
+
+path /users/{userId}/public is User {
+  read() { imLoggedIn() }
+}
+
+
+
