@@ -24,12 +24,16 @@ myUidIs(uid) {
 /**
  * User is our server
  */
-imServer() { myUidIs('SERVER') }
+imServer() { 
+  myUidIs('SERVER') 
+}
 
 /**
  * Returns true if matches the user role
  */
-myRoleIs(role) {  prior(root.users[auth.uid].role) == role }
+myRoleIs(role) {  
+  prior(root.users[auth.uid].role) == role 
+}
 
 
 //
@@ -50,37 +54,36 @@ type Rating extends Number {
 }
 
 type Role extends String {
-  validate() { this === null || this === 'admin' }
+  validate() { this === null || this === 'admin' } 
 }
 
 type UserPublic {
   photoURL: String | Null,
   displayName: DisplayName,
   rating: Rating,
+  read() { imLoggedIn() }  
 }
 
 type User {
   public: UserPublic,
   email: Email | Null,
   phoneNumber: String | Null,
-  role: Role
+  role: Role | Null,
 }
-
 
 //
-// Types
+// Paths
 // ----------------------------------------------------------------------------
 
-
-path / { read() { imServer() } }
-
-path /users { read() { myRoleIs('admin') } }
-
-path /users/{userId} is User {
-  read() { myUidIs(userId) || myRoleIs('admin') || imServer() }
-  write() { imServer() || myRoleIs('admin') }
+path / { 
+  read() { imServer() } 
 }
 
-path /users/{userId}/public is User {
-  read() { imLoggedIn() }
-} 
+path /users { 
+  read() { myRoleIs('admin') }
+}
+
+path /users/{userId} is User {
+  read() { myUidIs(userId) } 
+  write() { myUidIs(userId) ||  imServer() || myRoleIs('admin') } 
+}
