@@ -46,6 +46,11 @@
       "canWrite": [
         { "auth": "Authd", "data": "new@email.com" },
         { "auth": "Authd", "data": "new@email.com" }
+      ],
+      "cannotWrite": [
+        { "auth": "Authd", "data": "newemail.com" },
+        { "auth": "Authd", "data": "new@emailcom" },
+        { "auth": "Authd", "data": "new@.com" }
       ]
     },
     "users/AUTHENTICATED/phoneNumber": {},
