@@ -4,22 +4,17 @@
   "description": "Example Firebase Realtime Database rules workflow",
   "main": "index.js",
   "scripts": {
-    "build:rules": "firebase-bolt rules.bolt",
-    "pretest:rules": "npm run build:rules",
-    "test:rules": "targaryen --verbose /rules.json rules/tests.json",
-    "test": "jest",
-    "tw": "npm run test -- --watch",
-    "test:watch": "nodemon --watch rules/rules.bolt --watch rules/tests.json --exec \"npm run test:rules\""
+    "build": "firebase-bolt rules.bolt",
+    "pretest": "npm run build",
+    "test": "targaryen --verbose rules.json tests.json",
+    "test:watch":
+      "nodemon --watch rules.bolt --watch tests.json --exec \"npm run test\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ThadeuLuz/firebase-rules-workflow.git"
   },
-  "keywords": [
-    "Firebase",
-    "Bolt",
-    "Targaryen"
-  ],
+  "keywords": ["Firebase", "Bolt", "Targaryen"],
   "author": "Thadeu Luz",
   "license": "MIT",
   "bugs": {
