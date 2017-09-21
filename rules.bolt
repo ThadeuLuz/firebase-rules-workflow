@@ -3,7 +3,11 @@
 // ----------------------------------------------------------------------------
 
 /**
- * This is useful to control complex validation logic
+ * This is useful to control the operator order and simplify logic.
+ *
+ * Lets say you have the following logic operation "A || B && C". JavaScript's operator precedence
+ * tells that the && should be evaluated first, but that might not be what you want. If you want the
+ * || to be evaluated first, just using () won't work in Bolt, so can use "_(A || B) && C".
  */
 _(operation) { operation }
 
