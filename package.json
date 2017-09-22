@@ -4,11 +4,11 @@
   "description": "Example Firebase Realtime Database rules workflow",
   "main": "index.js",
   "scripts": {
-    "build": "firebase-bolt rules.bolt",
+    "build": "firebase-bolt src/rules.bolt --output dist/rules.json",
     "pretest": "npm run build",
-    "test": "targaryen --verbose rules.json tests.json",
+    "test": "targaryen --verbose dist/rules.json src/rules.spec.json",
     "test:watch":
-      "nodemon --watch rules.bolt --watch tests.json --exec \"npm run test\""
+      "nodemon --watch src/rules.bolt --watch src/rules.spec.json --exec \"npm run test\""
   },
   "repository": {
     "type": "git",
