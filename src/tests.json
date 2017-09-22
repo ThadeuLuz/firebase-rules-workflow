@@ -3,21 +3,21 @@
     "users": {
       "ADMIN": {
         "public": {
-          "photoURL": "http://www.example.com/yoda.png",
-          "displayName": "Yoda",
+          "photoURL": "http://www.example.com/rick.png",
+          "displayName": "Rick Sanchez",
           "rating": 5
         },
-        "email": "yoda@dagobah.com",
+        "email": "rick-c137@citadel.com",
         "phoneNumber": "12345",
         "role": "admin"
       },
       "AUTHENTICATED": {
         "public": {
-          "photoURL": "http://www.example.com/luke.png",
-          "displayName": "Luke",
-          "rating": 5
+          "photoURL": "http://www.example.com/morty.png",
+          "displayName": "Morty Smith",
+          "rating": null
         },
-        "email": "luke@jedi.com",
+        "email": "mortysmith@citadel.com",
         "phoneNumber": "12345"
       }
     }
@@ -45,15 +45,23 @@
     "users/AUTHENTICATED/email": {
       "canWrite": [
         { "auth": "Authd", "data": "new@email.com" },
-        { "auth": "Authd", "data": "new@email.com" }
+        { "auth": "Authd", "data": "new@email.com.br" }
       ],
       "cannotWrite": [
         { "auth": "Authd", "data": "newemail.com" },
         { "auth": "Authd", "data": "new@emailcom" },
-        { "auth": "Authd", "data": "new@.com" }
+        { "auth": "Authd", "data": "new@.com" },
+        { "auth": "Authd", "data": null },
+        { "auth": "Authd", "data": { "a": 1 } }
       ]
     },
-    "users/AUTHENTICATED/phoneNumber": {},
+    "users/AUTHENTICATED/phoneNumber": {
+      "canWrite": [
+        { "auth": "Authd", "data": null },
+        { "auth": "Authd", "data": "1234" }
+      ],
+      "cannotWrite": [{ "auth": "Authd", "data": 1234 }]
+    },
     "users/AUTHENTICATED/role": {},
     "users/AUTHENTICATED/public": {
       "canRead": ["Server", "Admin", "Authd", "Authd2"]

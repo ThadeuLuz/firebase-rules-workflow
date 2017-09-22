@@ -1,25 +1,17 @@
 //
-// Helper Functions
+// Functions
 // ----------------------------------------------------------------------------
 
-/**
- * This is useful to control the operator order and simplify logic.
- *
- * Lets say you have the following logic operation "A || B && C". JavaScript's operator precedence
- * tells that the && should be evaluated first, but that might not be what you want. If you want the
- * || to be evaluated first, just using () won't work in Bolt, so can use "_(A || B) && C".
- */
-_(operation) { operation }
 
 /**
- * User is logged in
+ * Checks if user is logged in
  */
 imLoggedIn() { 
   auth !== null
 }
 
 /**
- * User has this uid
+ * Checks if user has a uid
  */
 myUidIs(uid) { 
   imLoggedIn() && auth.uid == uid
@@ -70,7 +62,7 @@ type UserPublic {
 
 type User {
   public: UserPublic,
-  email: Email | Null,
+  email: Email,
   phoneNumber: String | Null,
   role: Role | Null,
 }
